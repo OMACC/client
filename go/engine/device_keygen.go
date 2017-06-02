@@ -18,7 +18,7 @@ type DeviceKeygenArgs struct {
 	DeviceType     string
 	Lks            *libkb.LKSec
 	IsEldest       bool
-	PerUserKeyring *libkb.PerUserKeyring // optional in some cases
+	PerUserKeyring *libkb.PerUserKeyring
 }
 
 // DeviceKeygenPushArgs determines how the push will run.  There are
@@ -385,6 +385,9 @@ func (e *DeviceKeygen) preparePerUserKeyBoxFromPaperkey(ctx *Context) ([]keybase
 
 	paperSigKey := ctx.LoginContext.GetUnlockedPaperSigKey()
 	paperEncKeyGeneric := ctx.LoginContext.GetUnlockedPaperEncKey()
+	if paperSigKey == nil && paperEncKeyGeneric == nil {
+		return nil, errors.New("missing paper key in login context")
+	}
 	if paperSigKey == nil {
 		return nil, errors.New("missing paper sig key")
 	}

@@ -181,7 +181,7 @@ func testRevokerPaperDeviceTwice(t *testing.T, upgradePerUserKey bool) {
 	t.Logf("check")
 	assertNumDevicesAndKeys(tc, u, 1, 2)
 
-	if tc.G.Env.GetSupportPerUserKey() {
+	if tc.G.Env.GetUpgradePerUserKey() {
 		checkPerUserKeyring(t, tc.G, 3)
 	}
 }
